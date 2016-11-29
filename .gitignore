@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Created by https://www.gitignore.io/api/linux,android,intellij,java,gradle
 
@@ -18,6 +19,8 @@
 
 
 ### Android ###
+=======
+>>>>>>> 4841a4e376b939e1f96ea7c7ca506aed4d6d60a6
 # Built application files
 *.apk
 *.ap_
@@ -55,6 +58,7 @@ captures/
 # Intellij
 *.iml
 .idea/workspace.xml
+<<<<<<< HEAD
 .idea/libraries
 
 # Keystore files
@@ -146,3 +150,8 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+=======
+
+# Keystore files
+*.jks
+>>>>>>> 4841a4e376b939e1f96ea7c7ca506aed4d6d60a6
