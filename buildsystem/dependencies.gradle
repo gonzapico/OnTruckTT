@@ -7,10 +7,10 @@ allprojects {
 ext {
 
   // Android SDK and tools
-  androidBuildToolsVersion = "24.0.1"
+  androidBuildToolsVersion = "25.0.1"
   androidMinSdkVersion = 15
   androidTargetSdkVersion = 22
-  androidCompileSdkVersion = 24
+  androidCompileSdkVersion = 25
 
   // Libraries app dependencies
   butterKnifeVersion = '8.2.1'
@@ -80,6 +80,8 @@ ext {
        javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
        javaxGlassfish     : "org.glassfish:javax.annotation:${javaxGlassfish}",
        rxAndroid          : "io.reactivex:rxandroid:${rxAndroidVersion}",
+       cardViewV7         : "com.android.support:cardview-v7:${supportVersion}",
+       recyclerViewV7     : "com.android.support:recyclerview-v7:${supportVersion}",
        glide              : "com.github.bumptech.glide:glide:${glideVersion}",
        places             : "com.google.android.gms:play-services-places:${placesAPIversion}"]
 }
