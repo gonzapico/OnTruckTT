@@ -104,17 +104,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:893326646546:android:fdc790fcb4b65873",
+        "mobilesdk_app_id": "1:893326646546:android:d64e760364cd84dd",
         "android_client_info": {
-          "package_name": "xyz.gonzapico.cabifytt"
+          "package_name": "xyz.gonzapico.ontrucktt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "893326646546-ri2ch7bfj7mug6aup77vl84ujv8obagv.apps.googleusercontent.com",
+          "client_id": "893326646546-1aqr9c2irc4q73at0viikh94jq8b2uus.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "xyz.gonzapico.cabifytt",
+            "package_name": "xyz.gonzapico.ontrucktt",
             "certificate_hash": "5B997096F4EACFADD9EC52097738AD5C6722A8A0"
           }
         },

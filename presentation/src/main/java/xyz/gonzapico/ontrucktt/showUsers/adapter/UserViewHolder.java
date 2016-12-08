@@ -1,4 +1,4 @@
-package xyz.gonzapico.ontrucktt.showLoads.adapter;
+package xyz.gonzapico.ontrucktt.showUsers.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,13 +11,13 @@ import xyz.gonzapico.ontrucktt.R;
  * Created by gfernandez on 6/12/16.
  */
 
-public class LoadViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends RecyclerView.ViewHolder {
 
+  @BindView(R.id.tvFullName) TextView tvFullName;
+  @BindView(R.id.tvId) TextView tvId;
+  @BindView(R.id.tvToken) TextView tvToken;
 
-  @BindView(R.id.tvName) TextView tvName;
-  @BindView(R.id.tvOrigin) TextView tvOrigin;
-  @BindView(R.id.tvDestination) TextView tvDestination;
-  public LoadViewHolder(View itemView) {
+  public UserViewHolder(View itemView) {
     super(itemView);
 
     ButterKnife.bind(this, itemView);

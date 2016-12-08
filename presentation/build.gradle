@@ -1,18 +1,38 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+buildscript {
+  repositories {
+
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+  }
+}
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.0"
+  def globalConfiguration = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+  buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
   defaultConfig {
-    applicationId "xyz.gonzapico.ontrucktt"
-    minSdkVersion 15
-    targetSdkVersion 25
-    versionCode 1
-    versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    applicationId globalConfiguration.getAt("androidApplicationId")
+    minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+    targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+    versionCode globalConfiguration.getAt("androidVersionCode")
+    versionName globalConfiguration.getAt("androidVersionName")
+
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
   }
+
   buildTypes {
+    debug {
+      debuggable true
+    }
     release {
+      debuggable false
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -24,6 +44,28 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
+
+  def presentationDependencies = rootProject.ext.presentationDependencies
+
+  // ButterKnife
+  compile presentationDependencies.butterKnife
+  apt presentationDependencies.butterKnifeCompiler
+
+  // RecyclerView
+  compile presentationDependencies.recyclerViewV7
+
+  // CardView
+  compile presentationDependencies.cardViewV7
+
+
+  // Add to the bottom of the file
+  apply plugin: 'com.google.gms.google-services'
+  compile 'com.google.firebase:firebase-auth:9.6.1'
   compile 'com.android.support:appcompat-v7:25.0.1'
+  compile 'com.google.firebase:firebase-database:9.6.1'
+  compile 'com.android.support:design:25.0.1'
   testCompile 'junit:junit:4.12'
 }
+
+
+apply plugin: 'com.google.gms.google-services'
