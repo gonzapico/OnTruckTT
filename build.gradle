@@ -5,10 +5,8 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.2'
-
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
+    classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.google.gms:google-services:3.0.0'
   }
 }
 
@@ -18,11 +16,11 @@ task wrapper(type: Wrapper) {
 
 allprojects {
   ext {
-    androidApplicationId = 'xyz.gonzapico.cabifytt'
+    androidApplicationId = 'xyz.gonzapico.ontrucktt'
     androidVersionCode = 1
-    androidVersionName = "0.20161115"
+    androidVersionName = "0.20161206"
 
-    testApplicationId = 'xyz.gonzapico.cabify.test'
+    testApplicationId = 'xyz.gonzapico.ontrucktt.test'
   }
 
 }
