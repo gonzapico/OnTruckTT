@@ -35,12 +35,13 @@ ext {
   jUnitVersion = '4.12'
   assertJVersion = '1.7.1'
   mockitoVersion = '1.10.19'
+  espressoVersion = '2.2.2'
 
   // Support
   supportVersion = '24.1.1'
 
   // Places
-  placesAPIversion = '9.6.1'
+  firebaseVersion = '9.6.1'
 
   dataDependencies = [retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
                       retrofitConverter : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
@@ -82,6 +83,10 @@ ext {
        rxAndroid          : "io.reactivex:rxandroid:${rxAndroidVersion}",
        cardViewV7         : "com.android.support:cardview-v7:${supportVersion}",
        recyclerViewV7     : "com.android.support:recyclerview-v7:${supportVersion}",
-       glide              : "com.github.bumptech.glide:glide:${glideVersion}",
-       places             : "com.google.android.gms:play-services-places:${placesAPIversion}"]
+       firebaseAuth       : "com.google.firebase:firebase-auth:${firebaseVersion}",
+       firebaseDB         : "com.google.firebase:firebase-database:${firebaseVersion}"]
+
+
+  presentationTestDependencies = [junit  : "junit:junit:${jUnitVersion}",
+                                  espresso: "com.android.support.test.espresso:espresso-core:${espressoVersion}"]
 }
