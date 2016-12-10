@@ -3,6 +3,8 @@ package xyz.gonzapico.ontrucktt;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,4 +22,8 @@ public abstract class BaseOTActivity extends AppCompatActivity {
   }
 
   protected abstract int getLayoutResource();
+
+  public void setUpRecyclerView(RecyclerView recyclerView) {
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+  }
 }
