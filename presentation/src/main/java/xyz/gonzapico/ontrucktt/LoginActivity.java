@@ -16,6 +16,8 @@
 
 package xyz.gonzapico.ontrucktt;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +33,7 @@ import xyz.gonzapico.ontrucktt.login.LoginView;
 
 public class LoginActivity extends BaseOTActivity implements LoginView {
 
+  public static String COME_FROM = "come_from";
   @BindView(R.id.status) TextView mStatusTextView;
   @BindView(R.id.detail) TextView mDetailTextView;
   @BindView(R.id.email_sign_in_button) Button btnSignIn;
@@ -41,6 +44,11 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
   @BindView(R.id.field_email) EditText mEmailField;
   @BindView(R.id.field_password) EditText mPasswordField;
   private LoginPresenter mLoginPresenter;
+  private boolean comeFromHome = false;
+
+  public static Intent getCallingIntent(Context context) {
+    return new Intent(context, LoginActivity.class);
+  }
 
   @OnClick(R.id.email_sign_in_button) void signIn() {
     mLoginPresenter.signIn(mEmailField, mPasswordField);
@@ -62,6 +70,7 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
     super.onCreate(savedInstanceState);
 
     mLoginPresenter = new LoginPresenter(this);
+    comeFromHome = getIntent().getBooleanExtra(COME_FROM, false);
   }
 
   @Override public void onStart() {
@@ -89,6 +98,8 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
     llEmailPasswordButtons.setVisibility(View.GONE);
     llEmailPasswordFields.setVisibility(View.GONE);
     btnSignOut.setVisibility(View.VISIBLE);
+
+    if (!comeFromHome) this.finish();
   }
 
   @Override public void userLoggedOut() {
