@@ -18,18 +18,20 @@ public class ShowUsersPresenter {
   private final static String TAG = "ShowUsersPresenter";
 
   private ShowUsersView mShowUsersView;
+  private FirebaseDatabase mFirebaseDatabase;
 
-  public ShowUsersPresenter(ShowUsersView showUsersView) {
+  public ShowUsersPresenter(ShowUsersView showUsersView, FirebaseDatabase firebaseDatabase) {
     this.mShowUsersView = showUsersView;
+    this.mFirebaseDatabase = firebaseDatabase;
   }
 
   public void onViewAttached() {
+    mShowUsersView.showLoading();
     getUsers();
   }
 
   private void getUsers() {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("usersData");
+    DatabaseReference myRef = mFirebaseDatabase.getReference("usersData");
 
     // Read from the database
     myRef.addValueEventListener(new ValueEventListener() {
@@ -43,16 +45,19 @@ public class ShowUsersPresenter {
           listOfUsers.add(user);
         }
         mShowUsersView.renderUsers(listOfUsers);
+        mShowUsersView.hideLoading();
       }
 
       @Override public void onCancelled(DatabaseError error) {
         // Failed to read value
         Log.w(TAG, "Failed to read value.", error.toException());
+        mShowUsersView.showErrorMessage("Failed to read value: " + error.toException());
+        mShowUsersView.hideLoading();
       }
     });
   }
 
-  private void onViewDetached() {
+  public void onViewDetached() {
 
   }
 }
