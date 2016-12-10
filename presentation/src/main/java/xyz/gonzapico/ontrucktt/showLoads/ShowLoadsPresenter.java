@@ -1,6 +1,7 @@
 package xyz.gonzapico.ontrucktt.showLoads;
 
 import android.util.Log;
+import android.view.View;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -8,29 +9,34 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
-import xyz.gonzapico.ontrucktt.showUsers.User;
+import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 /**
  * Created by gfernandez on 6/12/16.
  */
 
-public class ShowLoadsPresenter {
+public class ShowLoadsPresenter implements View.OnClickListener {
 
   private final static String TAG = "ShowUsersPresenter";
 
   private ShowLoadsView mShowLoadsView;
+  private FirebaseDatabase mFirebaseDatabase;
+  private Navigator mNavigator;
 
-  public ShowLoadsPresenter(ShowLoadsView showLoadsView){
+  public ShowLoadsPresenter(ShowLoadsView showLoadsView, FirebaseDatabase firebaseDatabase) {
     this.mShowLoadsView = showLoadsView;
+    this.mFirebaseDatabase = firebaseDatabase;
+    this.mNavigator = new Navigator();
   }
 
-  public void onViewAttached(){
+  public void onViewAttached() {
     getLoads();
+    mShowLoadsView.showLoading();
   }
 
   private void getLoads() {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("loads");
+
+    DatabaseReference myRef = mFirebaseDatabase.getReference("loads");
 
     // Read from the database
     myRef.addValueEventListener(new ValueEventListener() {
@@ -44,17 +50,31 @@ public class ShowLoadsPresenter {
           listOfLoads.add(load);
         }
         mShowLoadsView.renderLoads(listOfLoads);
-
+        mShowLoadsView.hideLoading();
       }
 
       @Override public void onCancelled(DatabaseError error) {
         // Failed to read value
         Log.w(TAG, "Failed to read value.", error.toException());
+        switch (error.getCode()) {
+          case DatabaseError.PERMISSION_DENIED:
+            mShowLoadsView.showPermissionDeniedError();
+            break;
+          default:
+            mShowLoadsView.showErrorMessage(error.getMessage());
+            break;
+        }
       }
     });
   }
 
-  private void onViewDetached(){
+  public void onViewDetached() {
 
+  }
+
+  @Override public void onClick(View view) {
+    if ((view != null) && (view.getContext() != null)) {
+      this.mNavigator.navigateToLogin(view.getContext(), false);
+    }
   }
 }
