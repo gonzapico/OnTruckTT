@@ -9,6 +9,7 @@ import dagger.Component;
 import javax.inject.Singleton;
 import xyz.gonzapico.ontrucktt.BaseOTActivity;
 import xyz.gonzapico.ontrucktt.di.modules.ApplicationModule;
+import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 /**
  * A component whose lifetime is the life of the application.
@@ -19,4 +20,6 @@ import xyz.gonzapico.ontrucktt.di.modules.ApplicationModule;
 
   //Exposed to sub-graphs.
   Context context();
+
+  Navigator navigator();
 }

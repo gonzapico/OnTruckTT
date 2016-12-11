@@ -3,6 +3,8 @@ package xyz.gonzapico.ontrucktt.navigator;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import xyz.gonzapico.ontrucktt.LoginActivity;
 import xyz.gonzapico.ontrucktt.ShowLoadsActivity;
 import xyz.gonzapico.ontrucktt.ShowUsersActivity;
@@ -11,9 +13,9 @@ import xyz.gonzapico.ontrucktt.ShowUsersActivity;
  * Created by gfernandez on 8/12/16.
  */
 
-public class Navigator {
+@Singleton public class Navigator {
 
-  public Navigator() {
+  @Inject public Navigator() {
 
   }
 

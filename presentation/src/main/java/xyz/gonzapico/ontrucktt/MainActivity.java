@@ -5,7 +5,6 @@ import butterknife.OnClick;
 import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 public class MainActivity extends BaseOTActivity {
-  private Navigator mNavigator;
 
   @OnClick(R.id.btnViewUsers) void viewUsers() {
     mNavigator.navigateToUsers(this);
@@ -21,8 +20,6 @@ public class MainActivity extends BaseOTActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    mNavigator = new Navigator();
   }
 
   @Override protected int getLayoutResource() {

@@ -9,25 +9,28 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.LoginActivity;
+import xyz.gonzapico.ontrucktt.di.PerActivity;
 
 /**
  * Created by gfernandez on 8/12/16.
  */
-
-public class LoginPresenter implements FirebaseAuth.AuthStateListener {
+@PerActivity public class LoginPresenter implements FirebaseAuth.AuthStateListener {
   private static final String TAG = "LoginPresenter";
   private FirebaseAuth mAuth;
   private FirebaseAuth.AuthStateListener mAuthListener;
 
   private LoginView mLoginView;
 
-  public LoginPresenter(LoginView loginView) {
-    this.mLoginView = loginView;
-
-    mAuth = FirebaseAuth.getInstance();
+  @Inject public LoginPresenter(FirebaseAuth firebaseAuth) {
+    mAuth = firebaseAuth;
 
     mAuthListener = this;
+  }
+
+  public void setUpView(LoginView loginView) {
+    this.mLoginView = loginView;
   }
 
   public void onViewAttached() {

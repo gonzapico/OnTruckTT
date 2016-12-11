@@ -9,6 +9,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.gonzapico.ontrucktt.BaseOTActivity;
+import xyz.gonzapico.ontrucktt.ShowLoadsActivity;
 import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 /**
@@ -21,12 +23,10 @@ public class ShowLoadsPresenter implements View.OnClickListener {
 
   private ShowLoadsView mShowLoadsView;
   private FirebaseDatabase mFirebaseDatabase;
-  private Navigator mNavigator;
 
   public ShowLoadsPresenter(ShowLoadsView showLoadsView, FirebaseDatabase firebaseDatabase) {
     this.mShowLoadsView = showLoadsView;
     this.mFirebaseDatabase = firebaseDatabase;
-    this.mNavigator = new Navigator();
   }
 
   public void onViewAttached() {
@@ -74,7 +74,11 @@ public class ShowLoadsPresenter implements View.OnClickListener {
 
   @Override public void onClick(View view) {
     if ((view != null) && (view.getContext() != null)) {
-      this.mNavigator.navigateToLogin(view.getContext(), false);
+      if (mShowLoadsView instanceof ShowLoadsActivity){
+        ((ShowLoadsActivity) mShowLoadsView).finish();
+      }
+      if (mShowLoadsView instanceof BaseOTActivity)
+        ((BaseOTActivity) mShowLoadsView).mNavigator.navigateToLogin(view.getContext(), false);
     }
   }
 }

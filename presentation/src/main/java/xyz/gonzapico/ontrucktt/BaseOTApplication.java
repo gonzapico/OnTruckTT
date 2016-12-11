@@ -2,9 +2,11 @@ package xyz.gonzapico.ontrucktt;
 
 import android.app.Application;
 import com.google.firebase.database.FirebaseDatabase;
+import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.di.components.ApplicationComponent;
 import xyz.gonzapico.ontrucktt.di.components.DaggerApplicationComponent;
 import xyz.gonzapico.ontrucktt.di.modules.ApplicationModule;
+import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 /**
  * Created by gfernandez on 8/12/16.
