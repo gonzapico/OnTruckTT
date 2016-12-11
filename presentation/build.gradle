@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+buildscript {
+  repositories {
+
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+  }
+}
+
+android {
+  def globalConfiguration = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+  buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
+  defaultConfig {
+    applicationId globalConfiguration.getAt("androidApplicationId")
+    minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+    targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+    versionCode globalConfiguration.getAt("androidVersionCode")
+    versionName globalConfiguration.getAt("androidVersionName")
+
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+
+  buildTypes {
+    debug {
+      debuggable true
+    }
+    release {
+      debuggable false
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
+  def presentationDependencies = rootProject.ext.presentationDependencies
+
+  // ButterKnife
+  compile presentationDependencies.butterKnife
+  apt presentationDependencies.butterKnifeCompiler
+
+  // RecyclerView
+  compile presentationDependencies.recyclerViewV7
+
+  // CardView
+  compile presentationDependencies.cardViewV7
+
+  // Firebase
+  apply plugin: 'com.google.gms.google-services'
+  compile presentationDependencies.firebaseAuth
+  compile presentationDependencies.supportAppCompatV7
+  compile presentationDependencies.firebaseDB
+  compile presentationDependencies.supportDesign
+
+  // Dagger 2
+  apt presentationDependencies.dagger
+  compile presentationDependencies.daggerCompiler
+  compile presentationDependencies.javaxGlassfish
+
+  def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+  // JUnit
+  testCompile presentationTestDependencies.junit
+  // Espresso
+  androidTestCompile(presentationTestDependencies.espresso, {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
+}
+
+
+apply plugin: 'com.google.gms.google-services'
