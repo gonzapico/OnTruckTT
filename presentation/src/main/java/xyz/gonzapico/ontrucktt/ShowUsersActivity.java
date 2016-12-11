@@ -31,6 +31,8 @@ public class ShowUsersActivity extends BaseOTActivity implements ShowUsersView {
     mDatabaseComponent.inject(this);
     showUsersPresenter.setUpView(this);
     setUpRecyclerView(rvUsers);
+
+    super.setUpInternalToolbar(getResources().getString(R.string.title_activity_show_users));
   }
 
   @Override protected int getLayoutResource() {

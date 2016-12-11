@@ -81,6 +81,8 @@ public class LoginActivity extends BaseOTActivity
 
     mLoginPresenter.setUpView(this);
     comeFromHome = getIntent().getBooleanExtra(COME_FROM, false);
+
+    super.setUpInternalToolbar(getResources().getString(R.string.title_activity_login));
   }
 
   private void initializeInjector() {

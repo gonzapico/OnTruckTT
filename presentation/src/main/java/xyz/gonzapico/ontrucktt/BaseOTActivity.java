@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.di.components.ApplicationComponent;
@@ -20,6 +23,7 @@ import xyz.gonzapico.ontrucktt.navigator.Navigator;
 public abstract class BaseOTActivity extends AppCompatActivity {
   @Inject public Navigator mNavigator;
   protected DatabaseComponent mDatabaseComponent;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -29,6 +33,17 @@ public abstract class BaseOTActivity extends AppCompatActivity {
     this.getApplicationComponent().inject(this);
 
     ButterKnife.bind(this);
+    setUpToolbar();
+  }
+
+  protected void setUpInternalToolbar(String toolbarTitle){
+    setUpBackArrow();
+    setUpToolbarTitle(toolbarTitle);
+  }
+
+  private void setUpToolbar() {
+    setSupportActionBar(mToolbar);
+    getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
   }
 
   private void initializeDatabaseComponent() {
@@ -36,6 +51,14 @@ public abstract class BaseOTActivity extends AppCompatActivity {
         .applicationComponent(getApplicationComponent())
         .activityModule(getActivityModule())
         .build();
+  }
+
+  protected void setUpBackArrow() {
+    if (getSupportActionBar() != null) {
+
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
   }
 
   protected abstract int getLayoutResource();
@@ -60,5 +83,22 @@ public abstract class BaseOTActivity extends AppCompatActivity {
    */
   protected ActivityModule getActivityModule() {
     return new ActivityModule(this);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  protected void setUpToolbarTitle(String title){
+    if (mToolbar != null){
+      mToolbar.setTitle(title);
+    }
   }
 }

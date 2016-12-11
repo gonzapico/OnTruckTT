@@ -31,6 +31,8 @@ public class ShowLoadsActivity extends BaseOTActivity implements ShowLoadsView {
     mDatabaseComponent.inject(this);
     showLoadsPresenter.setUpView(this);
     setUpRecyclerView(rvLoads);
+
+    super.setUpInternalToolbar(getResources().getString(R.string.title_activity_show_loads));
   }
 
   @Override protected int getLayoutResource() {

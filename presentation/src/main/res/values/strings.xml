@@ -1,6 +1,8 @@
 <resources>
   <string name="app_name">OnTruckTT</string>
-  <string name="title_activity_login">Sign in</string>
+  <string name="title_activity_login">Login/registro</string>
+  <string name="title_activity_show_loads">Tabla cargas</string>
+  <string name="title_activity_show_users">Tabla usuarios</string>
 
   <!-- Strings related to login -->
   <string name="prompt_email">Email</string>
