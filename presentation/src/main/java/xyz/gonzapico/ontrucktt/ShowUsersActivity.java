@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import java.util.List;
+import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.showUsers.ShowUsersPresenter;
 import xyz.gonzapico.ontrucktt.showUsers.ShowUsersView;
 import xyz.gonzapico.ontrucktt.showUsers.User;
@@ -19,7 +20,7 @@ public class ShowUsersActivity extends BaseOTActivity implements ShowUsersView {
   @BindView(R.id.rvUsers) RecyclerView rvUsers;
   @BindView(R.id.pbLoading) ProgressBar pbLoading;
   @BindView(R.id.llGlobalShowUsers) LinearLayout llGlobalUsers;
-  private ShowUsersPresenter showUsersPresenter;
+  @Inject ShowUsersPresenter showUsersPresenter;
 
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, ShowUsersActivity.class);
@@ -27,8 +28,8 @@ public class ShowUsersActivity extends BaseOTActivity implements ShowUsersView {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    showUsersPresenter = new ShowUsersPresenter(this, ((BaseOTApplication)getApplicationContext()).getFirebaseDatabase());
+    mDatabaseComponent.inject(this);
+    showUsersPresenter.setUpView(this);
     setUpRecyclerView(rvUsers);
   }
 

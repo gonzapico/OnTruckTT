@@ -9,24 +9,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.BaseOTActivity;
 import xyz.gonzapico.ontrucktt.ShowLoadsActivity;
+import xyz.gonzapico.ontrucktt.di.PerActivity;
 import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 /**
  * Created by gfernandez on 6/12/16.
  */
 
-public class ShowLoadsPresenter implements View.OnClickListener {
+@PerActivity public class ShowLoadsPresenter implements View.OnClickListener {
 
   private final static String TAG = "ShowUsersPresenter";
 
   private ShowLoadsView mShowLoadsView;
   private FirebaseDatabase mFirebaseDatabase;
 
-  public ShowLoadsPresenter(ShowLoadsView showLoadsView, FirebaseDatabase firebaseDatabase) {
-    this.mShowLoadsView = showLoadsView;
+  @Inject public ShowLoadsPresenter(FirebaseDatabase firebaseDatabase) {
     this.mFirebaseDatabase = firebaseDatabase;
+  }
+
+  public void setUpView(ShowLoadsView showLoadsView){
+    this.mShowLoadsView = showLoadsView;
   }
 
   public void onViewAttached() {

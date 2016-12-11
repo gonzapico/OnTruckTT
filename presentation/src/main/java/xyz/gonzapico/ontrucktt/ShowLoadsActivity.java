@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import java.util.List;
-import xyz.gonzapico.ontrucktt.navigator.Navigator;
+import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.showLoads.Load;
 import xyz.gonzapico.ontrucktt.showLoads.ShowLoadsPresenter;
 import xyz.gonzapico.ontrucktt.showLoads.ShowLoadsView;
@@ -20,9 +20,7 @@ public class ShowLoadsActivity extends BaseOTActivity implements ShowLoadsView {
   @BindView(R.id.rvLoads) RecyclerView rvLoads;
   @BindView(R.id.pbLoading) ProgressBar pbLoading;
   @BindView(R.id.llGlobalShowLoads) LinearLayout llGlobalLoads;
-  private ShowLoadsPresenter showLoadsPresenter;
-
-  private Navigator mNavigator;
+  @Inject ShowLoadsPresenter showLoadsPresenter;
 
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, ShowLoadsActivity.class);
@@ -30,12 +28,9 @@ public class ShowLoadsActivity extends BaseOTActivity implements ShowLoadsView {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    showLoadsPresenter = new ShowLoadsPresenter(this,
-        ((BaseOTApplication) getApplicationContext()).getFirebaseDatabase());
+    mDatabaseComponent.inject(this);
+    showLoadsPresenter.setUpView(this);
     setUpRecyclerView(rvLoads);
-
-    mNavigator = new Navigator();
   }
 
   @Override protected int getLayoutResource() {
@@ -75,7 +70,9 @@ public class ShowLoadsActivity extends BaseOTActivity implements ShowLoadsView {
   }
 
   @Override public void showPermissionDeniedError() {
-    Snackbar.make(llGlobalLoads, getResources().getString(R.string.login_required), Snackbar.LENGTH_LONG).setAction(
-        getResources().getText(R.string.login_button), showLoadsPresenter).show();
+    Snackbar.make(llGlobalLoads, getResources().getString(R.string.login_required),
+        Snackbar.LENGTH_LONG)
+        .setAction(getResources().getText(R.string.login_button), showLoadsPresenter)
+        .show();
   }
 }

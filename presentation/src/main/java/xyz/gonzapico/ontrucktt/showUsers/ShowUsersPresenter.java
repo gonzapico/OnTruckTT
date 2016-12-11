@@ -8,21 +8,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import xyz.gonzapico.ontrucktt.di.PerActivity;
 
 /**
  * Created by gfernandez on 6/12/16.
  */
 
-public class ShowUsersPresenter {
+@PerActivity public class ShowUsersPresenter {
 
   private final static String TAG = "ShowUsersPresenter";
 
   private ShowUsersView mShowUsersView;
   private FirebaseDatabase mFirebaseDatabase;
 
-  public ShowUsersPresenter(ShowUsersView showUsersView, FirebaseDatabase firebaseDatabase) {
-    this.mShowUsersView = showUsersView;
+  @Inject public ShowUsersPresenter(FirebaseDatabase firebaseDatabase) {
     this.mFirebaseDatabase = firebaseDatabase;
+  }
+
+  public void setUpView(ShowUsersView showUsersView) {
+    this.mShowUsersView = showUsersView;
   }
 
   public void onViewAttached() {

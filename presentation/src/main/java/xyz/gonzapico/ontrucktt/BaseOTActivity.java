@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import butterknife.ButterKnife;
 import javax.inject.Inject;
 import xyz.gonzapico.ontrucktt.di.components.ApplicationComponent;
+import xyz.gonzapico.ontrucktt.di.components.DaggerDatabaseComponent;
+import xyz.gonzapico.ontrucktt.di.components.DatabaseComponent;
 import xyz.gonzapico.ontrucktt.di.modules.ActivityModule;
 import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
@@ -17,13 +19,23 @@ import xyz.gonzapico.ontrucktt.navigator.Navigator;
 
 public abstract class BaseOTActivity extends AppCompatActivity {
   @Inject public Navigator mNavigator;
+  protected DatabaseComponent mDatabaseComponent;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(getLayoutResource());
+
+    initializeDatabaseComponent();
     this.getApplicationComponent().inject(this);
 
     ButterKnife.bind(this);
+  }
+
+  private void initializeDatabaseComponent() {
+    this.mDatabaseComponent = DaggerDatabaseComponent.builder()
+        .applicationComponent(getApplicationComponent())
+        .activityModule(getActivityModule())
+        .build();
   }
 
   protected abstract int getLayoutResource();
