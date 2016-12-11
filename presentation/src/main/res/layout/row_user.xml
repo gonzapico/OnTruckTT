@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     card_view:cardCornerRadius="4dp"
-    card_view:cardBackgroundColor="@android:color/holo_blue_light"
+    card_view:cardBackgroundColor="@android:color/holo_orange_light"
     card_view:cardElevation="6sp">
 
   <LinearLayout android:layout_width="match_parent"

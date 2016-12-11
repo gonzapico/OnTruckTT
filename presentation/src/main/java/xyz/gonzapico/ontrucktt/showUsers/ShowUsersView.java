@@ -13,4 +13,6 @@ public interface ShowUsersView {
   void hideLoading();
 
   void renderUsers(List<User> userList);
+
+  void showErrorMessage(String msgError);
 }

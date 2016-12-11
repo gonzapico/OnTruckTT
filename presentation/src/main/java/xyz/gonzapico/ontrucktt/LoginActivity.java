@@ -16,6 +16,8 @@
 
 package xyz.gonzapico.ontrucktt;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,11 +28,17 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.google.firebase.auth.FirebaseUser;
+import javax.inject.Inject;
+import xyz.gonzapico.ontrucktt.di.HasComponent;
+import xyz.gonzapico.ontrucktt.di.components.DaggerLoginComponent;
+import xyz.gonzapico.ontrucktt.di.components.LoginComponent;
 import xyz.gonzapico.ontrucktt.login.LoginPresenter;
 import xyz.gonzapico.ontrucktt.login.LoginView;
 
-public class LoginActivity extends BaseOTActivity implements LoginView {
+public class LoginActivity extends BaseOTActivity
+    implements LoginView, HasComponent<LoginComponent> {
 
+  public static String COME_FROM = "come_from";
   @BindView(R.id.status) TextView mStatusTextView;
   @BindView(R.id.detail) TextView mDetailTextView;
   @BindView(R.id.email_sign_in_button) Button btnSignIn;
@@ -40,7 +48,14 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
   @BindView(R.id.email_password_fields) LinearLayout llEmailPasswordFields;
   @BindView(R.id.field_email) EditText mEmailField;
   @BindView(R.id.field_password) EditText mPasswordField;
-  private LoginPresenter mLoginPresenter;
+
+  @Inject LoginPresenter mLoginPresenter;
+  private LoginComponent mLoginComponent;
+  private boolean comeFromHome = false;
+
+  public static Intent getCallingIntent(Context context) {
+    return new Intent(context, LoginActivity.class);
+  }
 
   @OnClick(R.id.email_sign_in_button) void signIn() {
     mLoginPresenter.signIn(mEmailField, mPasswordField);
@@ -61,7 +76,18 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mLoginPresenter = new LoginPresenter(this);
+    initializeInjector();
+    this.mLoginComponent.inject(this);
+
+    mLoginPresenter.setUpView(this);
+    comeFromHome = getIntent().getBooleanExtra(COME_FROM, false);
+  }
+
+  private void initializeInjector() {
+    this.mLoginComponent = DaggerLoginComponent.builder()
+        .applicationComponent(getApplicationComponent())
+        .activityModule(getActivityModule())
+        .build();
   }
 
   @Override public void onStart() {
@@ -89,6 +115,8 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
     llEmailPasswordButtons.setVisibility(View.GONE);
     llEmailPasswordFields.setVisibility(View.GONE);
     btnSignOut.setVisibility(View.VISIBLE);
+
+    if (!comeFromHome) this.finish();
   }
 
   @Override public void userLoggedOut() {
@@ -106,5 +134,9 @@ public class LoginActivity extends BaseOTActivity implements LoginView {
 
   @Override public void showStatusAuthFailed() {
     mStatusTextView.setText(R.string.auth_failed);
+  }
+
+  @Override public LoginComponent getComponent() {
+    return mLoginComponent;
   }
 }

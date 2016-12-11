@@ -8,28 +8,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import xyz.gonzapico.ontrucktt.di.PerActivity;
 
 /**
  * Created by gfernandez on 6/12/16.
  */
 
-public class ShowUsersPresenter {
+@PerActivity public class ShowUsersPresenter {
 
   private final static String TAG = "ShowUsersPresenter";
 
   private ShowUsersView mShowUsersView;
+  private FirebaseDatabase mFirebaseDatabase;
 
-  public ShowUsersPresenter(ShowUsersView showUsersView) {
+  @Inject public ShowUsersPresenter(FirebaseDatabase firebaseDatabase) {
+    this.mFirebaseDatabase = firebaseDatabase;
+  }
+
+  public void setUpView(ShowUsersView showUsersView) {
     this.mShowUsersView = showUsersView;
   }
 
   public void onViewAttached() {
+    mShowUsersView.showLoading();
     getUsers();
   }
 
   private void getUsers() {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("usersData");
+    DatabaseReference myRef = mFirebaseDatabase.getReference("usersData");
 
     // Read from the database
     myRef.addValueEventListener(new ValueEventListener() {
@@ -43,16 +50,19 @@ public class ShowUsersPresenter {
           listOfUsers.add(user);
         }
         mShowUsersView.renderUsers(listOfUsers);
+        mShowUsersView.hideLoading();
       }
 
       @Override public void onCancelled(DatabaseError error) {
         // Failed to read value
         Log.w(TAG, "Failed to read value.", error.toException());
+        mShowUsersView.showErrorMessage("Failed to read value: " + error.toException());
+        mShowUsersView.hideLoading();
       }
     });
   }
 
-  private void onViewDetached() {
+  public void onViewDetached() {
 
   }
 }

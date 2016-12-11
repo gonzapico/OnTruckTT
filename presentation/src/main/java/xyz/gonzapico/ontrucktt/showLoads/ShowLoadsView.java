@@ -9,4 +9,12 @@ import java.util.List;
 public interface ShowLoadsView {
 
   void renderLoads(List<Load> loadsList);
+
+  void showLoading();
+
+  void hideLoading();
+
+  void showErrorMessage(String msgError);
+
+  void showPermissionDeniedError();
 }

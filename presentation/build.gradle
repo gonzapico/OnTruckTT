@@ -62,6 +62,11 @@ dependencies {
   compile presentationDependencies.firebaseDB
   compile presentationDependencies.supportDesign
 
+  // Dagger 2
+  apt presentationDependencies.dagger
+  compile presentationDependencies.daggerCompiler
+  compile presentationDependencies.javaxGlassfish
+
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
   // JUnit
   testCompile presentationTestDependencies.junit
